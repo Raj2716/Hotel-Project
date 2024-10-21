@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Booking{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Confirm Your Booking</h2>
+
+    <h5>Hotel Name: {{ hotel.name }}</h5>
+    <p><strong>Location:</strong> {{ hotel.location }}</p>
+    <p><strong>Check-in Date:</strong> {{ check_in }}</p>
+    <p><strong>Check-out Date:</strong> {{ check_out }}</p>
+    <p><strong>Number of Members:</strong> {{ num_members }}</p>
+    <p><strong>Total Rooms Needed:</strong> {{ total_rooms_needed }}</p>
+    <p><strong>Total Price:</strong> ₹{{ total_price }}</p>
+
+    <h6>Select Hotel Facilities:</h6>
+    <form method="post" action="{% url 'hotel:confirm_booking' room.id %}">
+        {% csrf_token %}
+        <div>
+            {% for facility in hotel_facilities %}
+                <div>
+                    <input type="checkbox" name="hotel_facilities" value="{{ facility }}">
+                    {{ facility }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <h6>Select Room Facilities:</h6>
+        <div>
+            {% for facility in room_facilities %}
+                <div>
+                    <input type="checkbox" name="room_facilities" value="{{ facility }}">
+                    {{ facility }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Hidden inputs to pass necessary data to the booking_success view -->
+        <input type="hidden" name="hotel_name" value="{{ hotel.name }}">
+        <input type="hidden" name="location" value="{{ hotel.location }}">
+        <input type="hidden" name="check_in" value="{{ check_in }}">
+        <input type="hidden" name="check_out" value="{{ check_out }}">
+        <input type="hidden" name="num_members" value="{{ num_members }}">
+        <input type="hidden" name="total_rooms_needed" value="{{ total_rooms_needed }}">
+        <input type="hidden" name="total_price" value="{{ total_price }}">
+        <input type="hidden" name="confirm_booking" value="true">
+
+        <button type="submit" name="confirm_booking" class="btn btn-success mt-2">Confirm Booking</button>
+    </form>
+</div>
+{% endblock %}

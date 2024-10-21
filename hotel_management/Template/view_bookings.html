@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookings for {{ hotel.name }}{% endblock %}
+
+{% block content %}
+<h2>Bookings for {{ hotel.name }}</h2>
+
+<h3>Upcoming Bookings</h3>
+{% if upcoming_bookings %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>User</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Room</th>
+                <th>Number of Members</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in upcoming_bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.check_in }}</td>
+                <td>{{ booking.check_out }}</td>
+                <td>{{ booking.room.bed_type }}</td>
+                <td>{{ booking.num_members }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No upcoming bookings found for this hotel.</p>
+{% endif %}
+
+<h3>Current Bookings</h3>
+{% if current_bookings %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>User</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Room</th>
+                <th>Number of Members</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in current_bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.check_in }}</td>
+                <td>{{ booking.check_out }}</td>
+                <td>{{ booking.room.bed_type }}</td>
+                <td>{{ booking.num_members }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No current bookings found for this hotel.</p>
+{% endif %}
+
+<h3>Past Bookings</h3>
+{% if past_bookings %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>User</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Room</th>
+                <th>Number of Members</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in past_bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.check_in }}</td>
+                <td>{{ booking.check_out }}</td>
+                <td>{{ booking.room.bed_type }}</td>
+                <td>{{ booking.num_members }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No past bookings found for this hotel.</p>
+{% endif %}
+
+<p><a href="{% url 'hotel:hotelier_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a></p>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Room{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>Update Room</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <h3>Enter Room Numbers</h3>
+                    <div id="room-number-inputs"></div>
+
+                    <input type="hidden" id="room_numbers" name="room_number" value="{{ form.room_number.value }}">
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Update Room</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="{% url 'hotel:hotelier_dashboard' %}">Return to Dashboard</a>
+
+<script>
+    const totalRoomsInput = document.querySelector('#id_total_rooms');  // Ensure this field exists in your form
+    const roomNumberInputsDiv = document.getElementById('room-number-inputs');
+    const roomNumbersField = document.getElementById('room_numbers');
+
+    // Prepopulate room number fields with existing values (if editing)
+    const existingRoomNumbers = roomNumbersField.value ? roomNumbersField.value.split(',') : [];
+
+    function createRoomNumberInputs(totalRooms) {
+        roomNumberInputsDiv.innerHTML = '';  // Clear previous inputs
+        
+        for (let i = 1; i <= totalRooms; i++) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `room_number_${i}`;  // Make each room number input unique
+            input.placeholder = `Room Number ${i}`;
+            input.classList.add('form-control', 'mt-2');
+            input.required = true;
+            input.value = existingRoomNumbers[i - 1] || '';  // Set existing room numbers if available
+            roomNumberInputsDiv.appendChild(input);
+        }
+    }
+
+    // Update room number inputs when the total rooms value changes
+    totalRoomsInput.addEventListener('input', function() {
+        const totalRooms = parseInt(totalRoomsInput.value);
+        createRoomNumberInputs(totalRooms);
+    });
+
+    // Prepopulate the room number inputs based on existing value
+    if (totalRoomsInput.value) {
+        createRoomNumberInputs(parseInt(totalRoomsInput.value));
+    }
+
+    // Before submitting, collect all room numbers
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const roomNumbers = [];
+        roomNumberInputsDiv.querySelectorAll('input').forEach(function(input) {
+            roomNumbers.push(input.value);
+        });
+        roomNumbersField.value = roomNumbers.join(',');  // Save as a comma-separated string
+    });
+</script>
+
+{% endblock %}

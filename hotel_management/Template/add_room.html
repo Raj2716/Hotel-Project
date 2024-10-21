@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Room{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>Add Room to {{ hotel.name }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <h3>Enter Room number</h3>
+                    <div id="room-number-inputs"></div>
+
+                    <input type="hidden" name="room_numbers" id="room_numbers"> 
+                    <button type="submit" class="btn btn-primary btn-block">Add Room</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const totalRoomsInput = document.querySelector('#id_total_rooms');  // Django automatically sets id to 'id_fieldname'
+    const roomNumberInputsDiv = document.getElementById('room-number-inputs');
+    const roomNumbersField = document.getElementById('room_numbers');
+
+    totalRoomsInput.addEventListener('input', function() {
+        const totalRooms = parseInt(totalRoomsInput.value);
+        roomNumberInputsDiv.innerHTML = '';  // Clear previous inputs
+        
+        if (totalRooms && totalRooms > 0) {
+            for (let i = 1; i <= totalRooms; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = `room_number_${i}`;
+                input.placeholder = `Room Number ${i}`;
+                input.classList.add('form-control', 'mt-2');
+                input.required = true;
+                roomNumberInputsDiv.appendChild(input);
+            }
+        }
+    });
+
+    // Before submitting, collect all room numbers
+    document.querySelector('form').addEventListener('submit', function(event) {
+        const roomNumbers = [];
+        roomNumberInputsDiv.querySelectorAll('input').forEach(function(input) {
+            roomNumbers.push(input.value);
+        });
+        roomNumbersField.value = roomNumbers.join(',');  // Save as a comma-separated string
+    });
+</script>
+
+{% endblock %}

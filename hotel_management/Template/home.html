@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% load static %}
+{% block content %}
+<div class="jumbotron text-center bg-white">
+    <h1>Welcome to Hotel Management</h1>
+    <p>Manage your hotel bookings and listings with ease.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <img src="{% static 'images/user_register.jpg' %}" class="card-img-top" alt="User Registration">
+            <div class="card-body">
+                <h5 class="card-title">User Registration</h5>
+                <a href="{% url 'hotel:register_user' %}" class="btn btn-primary">Register as User</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <img src="{% static 'images/hotelier_register.jpg' %}" class="card-img-top" alt="Hotelier Registration">
+            <div class="card-body">
+                <h5 class="card-title">Hotelier Registration</h5>
+                <a href="{% url 'hotel:register_hotelier' %}" class="btn btn-primary">Register as Hotelier</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <img src="{% static 'images/login.jpg' %}" class="card-img-top" alt="Login">
+            <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <a href="{% url 'hotel:user_login' %}" class="btn btn-primary">User Login</a>
+                <a href="{% url 'hotel:hotelier_login' %}" class="btn btn-secondary mt-2">Hotelier Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

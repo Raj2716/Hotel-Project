@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Hotelier Dashboard{% endblock %}
+{% load static %}
+
+{% block content %}
+<h2>Hotelier Dashboard</h2>
+<div class="mb-4">
+    <h4>Welcome, {{ user.username }}!</h4>
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.gmail_id }}</p>
+    <p><strong>Mobile Number:</strong> {{ user.mobile_number }}</p>
+    <p><strong>Account Created:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+    <p><a href="{% url 'hotel:edit_profile_hotelier' %}" class="btn btn-warning">Edit Profile</a></p>  <!-- Link to edit profile -->
+</div>
+<!-- Add Hotel and Logout Buttons -->
+<a href="{% url 'hotel:add_hotel' %}" class="btn btn-primary">Add Hotel</a>
+<a href="{% url 'hotel:user_logout' %}" class="btn btn-danger">Logout</a>
+
+<h3>Your Hotels</h3>
+
+{% if hotels %}
+    <table class="table table-bordered mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>Image</th>
+                <th>Hotel Details</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hotel in hotels %}
+            <tr>
+                <!-- Hotel Image -->
+                <td style="width: 200px;">
+                    {% if hotel.image %}
+                        <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" style="width: 100%; height: auto;"/>
+                    {% endif %}
+                </td>
+
+                <!-- Hotel Details -->
+                <td>
+                    <strong>{{ hotel.name }}</strong><br>
+                    Location: {{ hotel.location }}<br>
+                    Rating: {{ hotel.ratings }}<br>
+                    Hotel Facilities : {{ hotel.hotel_facilities }}
+                    
+                    <!-- Rooms -->
+                    <h5 class="mt-4">Rooms:</h5>
+                    {% if hotel.room_set.all %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Room Details</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for room in hotel.room_set.all %}
+                                <tr>
+                                    <!-- Room Image -->
+                                    <td style="width: 150px;">
+                                        {% if room.image %}
+                                            <img src="{{ room.image.url }}" alt="Room Image" style="width: 100%; height: auto;"/>
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <!-- Room Details -->
+                                    <td>
+                                        <strong>Bed Type:</strong> {{ room.bed_type }}<br>
+                                        <strong>Price:</strong> ₹{{ room.price }}<br>
+                                        <strong>Max Members:</strong> {{ room.max_members }}<br>
+                                        <strong>Amenities:</strong> {{ room.amenities }}<br>
+                                        <strong>Total Rooms:</strong>{{ room.total_rooms }} <br>
+                                        <strong>Room Numbers:</strong> {{ room.room_number }}<br>
+                                        
+                                    </td>
+                                    
+                                    <!-- Room Actions -->
+                                    <td>
+                                        <a href="{% url 'hotel:update_room' room.id %}" class="btn btn-sm btn-warning">Update Room</a>
+                                        <a href="{% url 'hotel:delete_room' room.id %}" class="btn btn-sm btn-danger">Delete Room</a>
+                                        <a href="{% url 'hotel:view_bookings' hotel.id %}" class="btn btn-sm btn-success mt-2">View Bookings</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No rooms added yet for this hotel.</p>
+                    {% endif %}
+                </td>
+
+                <!-- Hotel Actions -->
+                <td>
+                    <a href="{% url 'hotel:update_hotel' hotel.id %}" class="btn btn-sm btn-secondary">Edit Hotel</a><br>
+                    <a href="{% url 'hotel:delete_hotel' hotel.id %}" class="btn btn-sm btn-danger mt-2">Delete Hotel</a><br>
+                    <a href="{% url 'hotel:add_room' hotel.id %}" class="btn btn-sm btn-info mt-2">Add Room</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You have not added any hotels yet.</p>
+{% endif %}
+
+<!-- Return to Home Link -->
+<p class="text-center mt-3">
+    <a href="{% url 'hotel:home' %}">Return to Home</a>
+</p>
+
+{% endblock %}
+
+
+

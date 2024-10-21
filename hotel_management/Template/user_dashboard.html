@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>User Dashboard</h2>
+    <div class="mb-4">
+        <h4>Welcome, {{ user.username }}!</h4>
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.gmail_id }}</p>
+        <p><strong>Mobile Number:</strong> {{ user.mobile_number }}</p>
+        <p><strong>Account Created:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+        <p><a href="{% url 'hotel:edit_profile_user' %}" class="btn btn-warning">Edit Profile</a></p>  <!-- Link to edit profile -->
+    </div>
+
+    <h3>Upcoming Bookings</h3>
+    {% if upcoming_bookings %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Bed Type</th>
+                    <th>Check-in Date</th>
+                    <th>Check-out Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in upcoming_bookings %}
+                <tr>
+                    <td>{{ booking.room.hotel.name }}</td>
+                    <td>{{ booking.room.bed_type }}</td>
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                    <td>
+                        <a href="{% url 'hotel:cancel_booking' booking.id %}" class="btn btn-danger">Cancel Booking</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no upcoming bookings.</p>
+    {% endif %}
+
+    <h3>Existing Bookings (Currently Active)</h3>
+    {% if existing_bookings %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Bed Type</th>
+                    <th>Check-in Date</th>
+                    <th>Check-out Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in existing_bookings %}
+                <tr>
+                    <td>{{ booking.room.hotel.name }}</td>
+                    <td>{{ booking.room.bed_type }}</td>
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                    <td>
+                        <a href="{% url 'hotel:extend_booking' booking.id %}" class="btn btn-info">Extend Booking</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no active bookings.</p>
+    {% endif %}
+
+    <h3>Past Bookings</h3>
+    {% if past_bookings %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Hotel Name</th>
+                    <th>Bed Type</th>
+                    <th>Check-in Date</th>
+                    <th>Check-out Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in past_bookings %}
+                <tr>
+                    <td>{{ booking.room.hotel.name }}</td>
+                    <td>{{ booking.room.bed_type }}</td>
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no past bookings.</p>
+    {% endif %}
+
+    <p class="text-center mt-3">
+        <a href="{% url 'hotel:search_hotels' %}" class="btn btn-primary">Search for Hotels</a>
+        <a href="{% url 'hotel:user_logout' %}" class="btn btn-danger">Logout</a>
+    </p>
+</div>
+{% endblock %}

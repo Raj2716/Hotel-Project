@@ -1,0 +1,98 @@
+body {
+    background-color: white;
+    font-family: 'Poppins', sans-serif; /* Example font family */
+    font-size: 16px;
+    color: #333;
+}
+h2, h3 {
+    font-family: 'Montserrat', sans-serif; /* Heading font */
+    font-weight: 700; /* Bold headings */
+    color: #2c3e50;
+}
+
+a.btn {
+    font-family: 'Roboto', sans-serif; /* Font for buttons */
+    font-weight: 500;
+}
+.jumbotron {
+    background-image: url("../images/hotel_bg.jpg");
+    background-size: cover;
+    color: white;
+    padding: 4rem 2rem;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+}
+/* Hotel card styling */
+.hotel-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.hotel-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Font styling for hotel details */
+.hotel-details {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.hotel-details:hover {
+    background-color: #e9ecef;
+}
+
+/* Hotel name styling */
+.hotel-name {
+    font-family: 'Lora', serif; /* Serif font for hotel name */
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Hotel information styling */
+.hotel-info {
+    font-family: 'Open Sans', sans-serif; /* Clean and readable font for details */
+    font-size: 14px;
+    font-weight: 400;
+    color: #7f8c8d;
+}
+
+/* Button font styling */
+.btn {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Style the hotel image */
+.hotel-image {
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+}
+
+/* Hover effect for the hotel card */
+.hotel-card:hover .hotel-details {
+    background-color: #e9ecef;
+}
+
+#price_slider {
+    width: 100%; /* Make it responsive */
+    height: 10px; /* Set height */
+}

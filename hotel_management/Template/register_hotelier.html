@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Hotelier Registration{% endblock %}
+{% load static %}
+{% block content %}
+<h2>Hotelier Registration</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+<p class="text-center mt-3">
+    <a href="{% url 'hotel:home' %}">Return to Home</a>
+</p>
+{% endblock %}
